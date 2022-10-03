@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dxc.luxoft.dto.UserLoginResponseTO;
 import com.dxc.luxoft.dto.UserLoginTO;
 import com.dxc.luxoft.entities.Courses;
 import com.dxc.luxoft.service.CourseService;
 import com.dxc.luxoft.utill.ResponseTO;
-import com.springboot.security.DTOs.UserLoginResponseTO;
 
 @RestController
 @RequestMapping("/courses")

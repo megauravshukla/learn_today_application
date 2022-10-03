@@ -1,4 +1,4 @@
-package com.springboot.security.DTOs;
+package com.dxc.luxoft.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
