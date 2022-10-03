@@ -75,7 +75,8 @@ public class TrainerServiceImpl implements TrainerService {
 		ResponseTO response = new ResponseTO();
 		try {
 			UserDetail userDetails = userDeatilsRepo.findByUserName(userName).get(0);
-			if (userDetails.getPassword().equals(oldPassword)) {
+			String encodedPassword = userDetails.getPassword();
+			if (doPasswordsMatch(oldPassword, encodedPassword)) {
 				userDeatilsRepo.updatePassword(newPassword, userName);
 				response.setResponse("Password updated Successfully...");
 				response.setStatus(HttpServletResponse.SC_OK);
@@ -89,6 +90,10 @@ public class TrainerServiceImpl implements TrainerService {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
 		return response;
+	}
+
+	public Boolean doPasswordsMatch(String UserProvidedOldPassword, String encodedOldPassword) {
+		return encoder.matches(UserProvidedOldPassword, encodedOldPassword);
 	}
 
 }
