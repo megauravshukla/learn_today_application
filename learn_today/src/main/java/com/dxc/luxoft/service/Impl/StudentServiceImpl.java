@@ -94,4 +94,21 @@ public class StudentServiceImpl implements StudentService {
 		return courses;
 	}
 
+
+
+	@Override
+	public ResponseTO deleteStudentById(int id) {
+		ResponseTO response = new ResponseTO();
+		try {
+			stuRepo.deleteById(id);
+			response.setResponse("Student deleted Successfully...");
+			response.setStatus(HttpServletResponse.SC_OK);
+		} catch (Exception e) {
+			log.error("Error wjile Deleting the Student...");
+			response.setResponse("Error while Deleting the Student");
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		return response;
+	}
+
 }

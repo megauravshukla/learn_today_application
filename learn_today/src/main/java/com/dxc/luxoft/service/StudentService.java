@@ -13,6 +13,8 @@ public interface StudentService {
 	
 	public Courses findCourseById(int id);
 	
+	public ResponseTO deleteStudentById(int id);
+	
 	
 	
 	

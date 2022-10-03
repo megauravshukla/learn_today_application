@@ -28,8 +28,14 @@ public class StudentController {
 	}
 	
 	@GetMapping(value = "/get/course")
-	public ResponseEntity<Courses> updatePassword(@RequestParam(value = "id") int id) {
+	public ResponseEntity<Courses> getCourseById(@RequestParam(value = "id") int id) {
 		Courses res = stuService.findCourseById(id);
+		return ResponseEntity.ok(res);
+	}
+	
+	@GetMapping(value = "/delete/student")
+	public ResponseEntity<ResponseTO> deleteStudentById(@RequestParam(value = "id") int id) {
+		ResponseTO res = stuService.deleteStudentById(id);
 		return ResponseEntity.ok(res);
 	}
 	

@@ -1,5 +1,8 @@
 package com.dxc.luxoft.service.Impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +69,18 @@ public class CourseServiceImpl implements CourseService{
 		final UserDetails userDetails = customUserDetailService.loadUserByUsername(userLoginTO.getEmail());
 		final String jwtToken = jwtConfig.generateToken(userDetails);
 		return jwtToken;
+	}
+
+	@Override
+	public List<Courses> getAllCourses() {
+		List<Courses> response = new ArrayList<>();
+		try {
+			response = courseRepo.findAll();
+		} catch (Exception e) {
+			log.error("Error wjile Registering the trainer...");
+		}
+		return response;
+
 	}
 
 	
