@@ -1,0 +1,14 @@
+package com.dxc.luxoft.service.Impl;
+
+import com.dxc.luxoft.entities.Courses;
+import com.dxc.luxoft.service.CourseService;
+import com.dxc.luxoft.utill.ResponseTO;
+
+public class CourseServiceImpl implements CourseService{
+
+	@Override
+	public ResponseTO saveCourses(Courses course) {
+		return null;
+	}
+
+}

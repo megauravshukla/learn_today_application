@@ -1,0 +1,5 @@
+package com.dxc.luxoft.service;
+
+public interface StudentService {
+
+}

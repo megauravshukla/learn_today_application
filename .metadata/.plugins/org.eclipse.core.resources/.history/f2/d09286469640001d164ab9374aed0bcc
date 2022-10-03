@@ -1,0 +1,37 @@
+package com.dxc.luxoft.service.Impl;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.dxc.luxoft.entities.Students;
+import com.dxc.luxoft.repositories.StudentRepository;
+import com.dxc.luxoft.service.StudentService;
+import com.dxc.luxoft.utill.ResponseTO;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Service
+@Slf4j
+public class StudentServiceImpl implements StudentService{
+	
+	@Autowired
+	private StudentRepository stuRepo;
+
+	@Override
+	public ResponseTO registerStudents(Students stu) {
+		ResponseTO response = new ResponseTO();
+		try {
+			stuRepo.save(stu);
+			response.setResponse("Student Registered Successfully...");
+			response.setStatus(HttpServletResponse.SC_OK);
+		} catch (Exception e) {
+			log.error("Error wjile Registering the trainer...");
+			response.setResponse("Error while Registering the Student...");
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		return response;
+	}
+
+}

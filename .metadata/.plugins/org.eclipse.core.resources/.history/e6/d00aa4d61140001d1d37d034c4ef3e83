@@ -1,0 +1,5 @@
+package com.dxc.luxoft.config;
+
+public class SwaggerConfig {
+
+}

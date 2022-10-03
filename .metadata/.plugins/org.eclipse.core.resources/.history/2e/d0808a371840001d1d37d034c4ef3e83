@@ -1,0 +1,5 @@
+package com.dxc.luxoft.dto;
+
+public class TrainerTO {
+
+}

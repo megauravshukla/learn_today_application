@@ -1,0 +1,28 @@
+package com.springboot.security.config;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import com.springboot.security.entities.User;
+import com.springboot.security.repositories.UserRepository;
+
+@Service
+public class CustomUserDetailService implements UserDetailsService{
+	
+	@Autowired
+	private UserRepository userDAO;
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		
+		List<User> user = userDAO.findByEmail(username);
+		
+		return user.get(0);
+	}
+
+}

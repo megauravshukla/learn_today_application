@@ -1,0 +1,57 @@
+package com.dxc.luxoft.service.Impl;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.dxc.luxoft.dto.StudentTO;
+import com.dxc.luxoft.entities.Students;
+import com.dxc.luxoft.repositories.CourseRepository;
+import com.dxc.luxoft.repositories.StudentRepository;
+import com.dxc.luxoft.service.StudentService;
+import com.dxc.luxoft.utill.ResponseTO;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Service
+@Slf4j
+public class StudentServiceImpl implements StudentService{
+	
+	@Autowired
+	private StudentRepository stuRepo;
+	
+	@Autowired
+	private CourseRepository courseRepo;
+
+	@Override
+	public ResponseTO registerStudents(StudentTO stuTO) {
+		ResponseTO response = new ResponseTO();
+		try {
+			Students stu = new Students();
+			stu.setStudentName(stuTO.getStudentName());
+			stu.setStudentEmail(stuTO.getStudentEmail());
+			stu.setOptedCourse(stuTO.getOptedCourse());
+			stu.setQualification(stuTO.getQualification());
+			stu.setTrainer(stuTO.getTrainer());
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+			LocalDateTime now = LocalDateTime.now();
+			System.out.println(dtf.format(now));
+			stu.setStartDate(dtf.format(now));
+			stu.setCourse(courseRepo.findByTitle(stuTO.getOptedCourse()).get(0));
+			stuRepo.save(stu);
+			
+			response.setResponse("Student Registered Successfully...");
+			response.setStatus(HttpServletResponse.SC_OK);
+		} catch (Exception e) {
+			log.error("Error wjile Registering the trainer...");
+			response.setResponse("Error while Registering the Student...");
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		return response;
+	}
+
+}

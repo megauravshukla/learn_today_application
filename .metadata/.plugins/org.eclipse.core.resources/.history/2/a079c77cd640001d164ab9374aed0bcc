@@ -1,0 +1,5 @@
+package com.dxc.luxoft.filter;
+
+public class JWTRequestFilter {
+
+}

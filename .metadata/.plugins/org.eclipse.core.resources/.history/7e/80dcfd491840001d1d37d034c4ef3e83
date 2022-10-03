@@ -1,0 +1,19 @@
+package com.dxc.luxoft.dto;
+
+import java.util.Date;
+
+public class TrainerTO {
+	
+	public String trainerName;
+	
+	public String trainerEmail;
+	
+	public String password;
+
+	public String expertise;
+	
+	public String qualification;
+	
+	public Date registerdate;
+
+}

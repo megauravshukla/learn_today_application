@@ -1,0 +1,19 @@
+package com.dxc.luxoft.repositories;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import com.dxc.luxoft.entities.UserDetails;
+
+@Repository("userDeatilsRepo")
+public interface UserDetailsRepository extends JpaRepository<UserDetails, Integer>{
+	
+	public List<UserDetails> findByUserName(String userName);
+	
+	@Query("update UserDetails set password =:password where userName=:userId")
+	public boolean updatePassword(String password, String userId);
+
+}

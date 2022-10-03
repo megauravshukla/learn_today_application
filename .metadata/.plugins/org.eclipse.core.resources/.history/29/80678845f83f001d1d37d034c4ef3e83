@@ -1,0 +1,7 @@
+package com.dxc.luxoft.service.Impl;
+
+import com.dxc.luxoft.service.CourseService;
+
+public class CourseServiceImpl implements CourseService{
+
+}

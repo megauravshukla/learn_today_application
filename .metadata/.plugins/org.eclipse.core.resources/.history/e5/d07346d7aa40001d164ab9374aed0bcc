@@ -1,0 +1,90 @@
+package com.dxc.luxoft.service.Impl;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.dxc.luxoft.dto.TrainerTO;
+import com.dxc.luxoft.entities.Roles;
+import com.dxc.luxoft.entities.Trainer;
+import com.dxc.luxoft.entities.UserDetails;
+import com.dxc.luxoft.repositories.RolesRepository;
+import com.dxc.luxoft.repositories.TrainerRepository;
+import com.dxc.luxoft.repositories.UserDetailsRepository;
+import com.dxc.luxoft.service.TrainerService;
+import com.dxc.luxoft.utill.CommonConstants;
+import com.dxc.luxoft.utill.ResponseTO;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Service
+@Slf4j
+public class TrainerServiceImpl implements TrainerService {
+
+	@Autowired
+	private TrainerRepository trainerRepo;
+
+	@Autowired
+	private UserDetailsRepository userDeatilsRepo;
+
+	@Autowired
+	private RolesRepository rolesRepo;
+
+	@Override
+	public ResponseTO registerTrainer(TrainerTO trainerTo) {
+		ResponseTO response = new ResponseTO();
+		try {
+			Trainer trainer = new Trainer();
+			trainer.setTrainerName(trainerTo.getTrainerName());
+			trainer.setTrainerEmail(trainerTo.getTrainerEmail());
+			trainer.setQualification(trainerTo.getQualification());
+			trainer.setExpertise(trainerTo.getExpertise());
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+			LocalDateTime now = LocalDateTime.now();
+			System.out.println(dtf.format(now));
+			trainer.setRegisterdate(dtf.format(now));
+			trainerRepo.save(trainer);
+			UserDetails userDetails = new UserDetails();
+			userDetails.setUserName(trainerTo.getTrainerEmail());
+			userDetails.setPassword(trainerTo.getPassword());
+			userDetails.setUserType(CommonConstants.TRAINER_USER_TYPE);
+			userDeatilsRepo.save(userDetails);
+			Roles roles = new Roles();
+			roles.setRole(CommonConstants.TRAINER_ROLE_NAME);
+			roles.setUser(userDeatilsRepo.findByUserName(trainerTo.getTrainerEmail()).get(0));
+			rolesRepo.save(roles);
+			response.setResponse("Trainer Registered Successfully...");
+			response.setStatus(HttpServletResponse.SC_OK);
+		} catch (Exception e) {
+			log.error("Error wjile Registering the trainer...");
+			response.setResponse("Error while Registering the trainer");
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		return response;
+	}
+
+	@Override
+	public ResponseTO updatePassword(String userName, String oldPassword, String newPassword) {
+		ResponseTO response = new ResponseTO();
+		try {
+			UserDetails userDetails = userDeatilsRepo.findByUserName(userName).get(0);
+			if (userDetails.getPassword().equals(oldPassword)) {
+				userDeatilsRepo.updatePassword(userName, newPassword);
+				response.setResponse("Password updated Successfully...");
+				response.setStatus(HttpServletResponse.SC_OK);
+			}
+		} catch (Exception e) {
+			log.error("Error wjile Registering the trainer...");
+			e.printStackTrace();
+			response.setResponse("Error while updating the Pass");
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		return null;
+	}
+
+}

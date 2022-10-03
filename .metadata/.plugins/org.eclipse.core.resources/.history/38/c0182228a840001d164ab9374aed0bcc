@@ -1,0 +1,34 @@
+package com.dxc.luxoft.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.dxc.luxoft.dto.TrainerTO;
+import com.dxc.luxoft.service.TrainerService;
+import com.dxc.luxoft.utill.ResponseTO;
+
+@RestController
+@RequestMapping("/trainer")
+public class TrainerController {
+
+	@Autowired
+	private TrainerService trainerService;
+
+	@PostMapping(value = "/register/trainer")
+	public ResponseEntity<ResponseTO> saveTrainers(@RequestBody TrainerTO trainerTo) {
+		ResponseTO res = trainerService.registerTrainer(trainerTo);
+		return ResponseEntity.ok(res);
+	}
+	
+	@PostMapping(value = "/register/trainer")
+	public ResponseEntity<ResponseTO> updatePassword(@RequestParam(value = "userId") String userId, @RequestParam(value = "oldPassword") String oldPassword, @RequestParam(value = "newPassword") String newPassword) {
+		ResponseTO res = trainerService.updatePassword(userId, oldPassword, newPassword);
+		return ResponseEntity.ok(res);
+	}
+
+}

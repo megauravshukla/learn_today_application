@@ -1,0 +1,5 @@
+package com.dxc.luxoft.repositories;
+
+public interface StudentRepository {
+
+}

@@ -1,0 +1,38 @@
+package com.dxc.luxoft.service.Impl;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.dxc.luxoft.entities.Trainer;
+import com.dxc.luxoft.repositories.TrainerRepository;
+import com.dxc.luxoft.service.TrainerService;
+import com.dxc.luxoft.utill.ResponseTO;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Service
+@Slf4j
+public class TrainerServiceImpl implements TrainerService {
+	
+	@Autowired
+	private TrainerRepository trainerRepo;
+
+	@Override
+	public ResponseTO registerTrainer(Trainer trainer) {
+		ResponseTO response = new ResponseTO();
+		try {
+			trainerRepo.save(trainer);
+			response.setResponse("Trainer Registered Successfully...");
+			response.setStatus(HttpServletResponse.SC_OK);
+
+		} catch (Exception e) {
+			log.error("Error wjile Registering the trainer...");
+			response.setResponse("Error while Registering the trainer");
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		return response;
+	}
+
+}
