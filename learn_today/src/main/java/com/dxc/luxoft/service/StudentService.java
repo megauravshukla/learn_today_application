@@ -1,5 +1,7 @@
 package com.dxc.luxoft.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.dxc.luxoft.dto.StudentTO;
@@ -11,9 +13,9 @@ public interface StudentService {
 	
 	public ResponseTO registerStudents(StudentTO stuTO);
 	
-	public Courses findCourseById(int id);
+	//public Courses findCourseById(int id);
 	
-	public ResponseTO deleteStudentById(int id);
+	public ResponseTO deleteStudentById(int id, List<String> claims);
 	
 	
 	

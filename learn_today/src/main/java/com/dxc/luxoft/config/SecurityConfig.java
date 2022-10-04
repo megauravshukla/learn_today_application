@@ -47,6 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.permitAll()
 		.antMatchers(CommonConstants.STUDENT_AUTH_LIST).hasRole(CommonConstants.STUDENT_ROLE_NAME)
 		.antMatchers(CommonConstants.TRAINER_AUTH_LIST).hasRole(CommonConstants.TRAINER_ROLE_NAME)
+		.antMatchers(CommonConstants.ADMIN_AUTH_LIST).hasRole(CommonConstants.ADMIN_ROLE_NAME)
 		.anyRequest()
 		.authenticated()
 		.and()

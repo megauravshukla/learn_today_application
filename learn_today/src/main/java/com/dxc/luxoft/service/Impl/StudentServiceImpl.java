@@ -3,6 +3,7 @@ package com.dxc.luxoft.service.Impl;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
@@ -38,9 +39,6 @@ public class StudentServiceImpl implements StudentService {
 
 	@Autowired
 	private UserDetailsRepository userDeatilsRepo;
-
-	@Autowired
-	private RolesRepository rolesRepo;
 	
 	@Autowired
 	private PasswordEncoder encoder;
@@ -79,30 +77,33 @@ public class StudentServiceImpl implements StudentService {
 	
 
 
-	@Override
-	public Courses findCourseById(int id) {
-		Optional<Courses> courseList = null;
-		Courses courses = null;
-		try {
-			courseList = courseRepo.findById(id);
-			if (courseList.isPresent()) {
-				courses = courseList.get();
-			}
-		} catch (Exception e) {
-			log.error("Error While retriving courses by id...");
-		}
-		return courses;
-	}
+//	@Override
+//	public Courses findCourseById(int id) {
+//		Optional<Courses> courseList = null;
+//		Courses courses = null;
+//		try {
+//			courseList = courseRepo.findById(id);
+//			if (courseList.isPresent()) {
+//				courses = courseList.get();
+//			}
+//		} catch (Exception e) {
+//			log.error("Error While retriving courses by id...");
+//		}
+//		return courses;
+//	}
 
 
 
 	@Override
-	public ResponseTO deleteStudentById(int id) {
+	public ResponseTO deleteStudentById(int id, List<String> claims) {
 		ResponseTO response = new ResponseTO();
 		try {
+			if (claims.contains(CommonConstants.ADMIN_ROLE_NAME)
+					|| claims.contains(CommonConstants.STUDENT_ROLE_NAME)) {
 			stuRepo.deleteById(id);
 			response.setResponse("Student deleted Successfully...");
 			response.setStatus(HttpServletResponse.SC_OK);
+			}
 		} catch (Exception e) {
 			log.error("Error wjile Deleting the Student...");
 			response.setResponse("Error while Deleting the Student");

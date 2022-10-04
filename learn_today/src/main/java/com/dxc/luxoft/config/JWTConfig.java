@@ -17,7 +17,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
 public class JWTConfig {
-	private String SECRET_KEY = String.valueOf(UUID.randomUUID());
+	private String SECRET_KEY = "DXC_LUXOFT";
 	
 	
 	public String extractUsername(String token) {
@@ -32,7 +32,7 @@ public class JWTConfig {
 		return claimsResolver.apply(claims);
 	}
 	
-	private Claims extractAllClaims(String token) {
+	public Claims extractAllClaims(String token) {
 		return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
 	}
 	

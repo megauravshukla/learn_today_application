@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.dxc.luxoft.entities.Courses;
 
-@Repository("courseRepo")
+@Repository("courseDAO")
 public interface CourseRepository extends JpaRepository<Courses, Integer>{
 	
 	public List<Courses> findByTitle(String title);

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.dxc.luxoft.entities.Students;
 
-@Repository("stuRepo")
+@Repository("stuDAO")
 public interface StudentRepository extends JpaRepository<Students, Integer>{
 
 }

@@ -9,11 +9,11 @@ import org.springframework.stereotype.Repository;
 
 import com.dxc.luxoft.entities.UserDetail;
 
-@Repository("userDeatilsRepo")
-public interface UserDetailsRepository extends JpaRepository<UserDetail, Integer>{
-	
+@Repository("userDeatilsDAO")
+public interface UserDetailsRepository extends JpaRepository<UserDetail, Integer> {
+
 	public List<UserDetail> findByUserName(String userName);
-	
+
 	@Modifying
 	@Query("update UserDetail set password =?1 where userName=?2")
 	public void updatePassword(String password, String userId);

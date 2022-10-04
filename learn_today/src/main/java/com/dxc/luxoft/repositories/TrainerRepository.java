@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.dxc.luxoft.entities.Trainer;
 
-@Repository("trainerRepo")
+@Repository("trainerDAO")
 public interface TrainerRepository extends JpaRepository<Trainer, Integer>{
 
 }

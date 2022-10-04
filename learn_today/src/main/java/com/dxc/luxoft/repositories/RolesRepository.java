@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.dxc.luxoft.entities.Roles;
 
-@Repository("rolesRepo")
+@Repository("rolesDAO")
 public interface RolesRepository  extends JpaRepository<Roles, Integer>{
 
 }

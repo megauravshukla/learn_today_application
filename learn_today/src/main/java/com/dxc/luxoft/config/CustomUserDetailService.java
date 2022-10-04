@@ -15,12 +15,12 @@ import com.dxc.luxoft.repositories.UserDetailsRepository;
 public class CustomUserDetailService implements UserDetailsService{
 	
 	@Autowired
-	private UserDetailsRepository userDeatilsRepo;
+	private UserDetailsRepository userDeatilsDAO;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
-		List<UserDetail> user = userDeatilsRepo.findByUserName(username);
+		List<UserDetail> user = userDeatilsDAO.findByUserName(username);
 		
 		return user.get(0);
 	}

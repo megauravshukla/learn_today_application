@@ -2,6 +2,7 @@ package com.dxc.luxoft.service.Impl;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.dxc.luxoft.dto.PasswordResetTO;
 import com.dxc.luxoft.dto.TrainerTO;
 import com.dxc.luxoft.entities.Roles;
 import com.dxc.luxoft.entities.Trainer;
@@ -71,17 +73,22 @@ public class TrainerServiceImpl implements TrainerService {
 
 	@Override
 	@Transactional
-	public ResponseTO updatePassword(String userName, String oldPassword, String newPassword) {
+	public ResponseTO updatePassword(PasswordResetTO passwordResetTO, List<String> claims) {
 		ResponseTO response = new ResponseTO();
 		try {
-			UserDetail userDetails = userDeatilsRepo.findByUserName(userName).get(0);
-			String encodedPassword = userDetails.getPassword();
-			if (doPasswordsMatch(oldPassword, encodedPassword)) {
-				userDeatilsRepo.updatePassword(newPassword, userName);
-				response.setResponse("Password updated Successfully...");
-				response.setStatus(HttpServletResponse.SC_OK);
+			if (claims.contains(CommonConstants.TRAINER_ROLE_NAME)) {
+				UserDetail userDetails = userDeatilsRepo.findByUserName(passwordResetTO.getUserName()).get(0);
+				String encodedPassword = userDetails.getPassword();
+				if (doPasswordsMatch(passwordResetTO.getCurrentPassword(), encodedPassword)) {
+					userDeatilsRepo.updatePassword(encoder.encode(passwordResetTO.getNewPassword()), passwordResetTO.getUserName());
+					response.setResponse("Password updated Successfully...");
+					response.setStatus(HttpServletResponse.SC_OK);
+				} else {
+					response.setResponse("Old Password is not matching...");
+					response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+				}
 			} else {
-				response.setResponse("Old Password is not matching...");
+				response.setResponse("Only Trainers are authorised to change their password...");
 				response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 			}
 		} catch (Exception e) {
